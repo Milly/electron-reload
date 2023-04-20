@@ -19,7 +19,7 @@ Just initialize this module with desired glob or file path to watch and let it r
 
 const {app, BrowserWindow} = require('electron');
 
-const electronReload = require('electron-reload');
+const electronReload = require('@millyc/electron-reload');
 
 // Standard stuff
 app.on('ready', () => {
@@ -45,7 +45,7 @@ If your app overrides some of the default `quit` or `close` actions (e.g. closin
 ```js
 const path = require('path');
 
-require('electron-reload')(__dirname, {
+require('@millyc/electron-reload')(__dirname, {
   electron: path.join(__dirname, 'node_modules', '.bin', 'electron'),
   hardResetMethod: 'exit',
 });
