@@ -43,7 +43,19 @@ const createHardresetHandler = (eXecutable, hardResetMethod, eArgv, aArgv) =>
       app.quit()
     }
   }
-module.exports = function elecronReload (glob, options = {}) {
+
+/**
+ * @typedef {import('./types/main').ElectronReloadOptions} ElectronReloadOptions
+ */
+
+/**
+ * Refreshes the Electron browser window when the watched glob or file path changes.
+ *
+ * @param {string | readonly string[]} glob a file, directory or glob pattern to watch
+ * @param {ElectronReloadOptions} options options for electron-reload or chokidar.watch
+ * @returns void
+ */
+function electronReload (glob, options = {}) {
   const browserWindows = []
   const watcher = chokidar.watch(glob, Object.assign({ ignored: [ignoredPaths, mainFile] }, options))
 
@@ -91,3 +103,5 @@ module.exports = function elecronReload (glob, options = {}) {
     hardWatcher.once('change', hardResetHandler)
   }
 }
+
+module.exports = electronReload
