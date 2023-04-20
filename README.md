@@ -19,7 +19,7 @@ Just initialize this module with desired glob or file path to watch and let it r
 
 const {app, BrowserWindow} = require('electron');
 
-const electronReload = require('electron-reload')
+const electronReload = require('electron-reload');
 
 // Standard stuff
 app.on('ready', () => {
@@ -33,21 +33,21 @@ app.on('ready', () => {
 Note that the above code only refreshes `WebContent`s of all `BrowserWindow`s. So if you want to have a hard reset (starting a new electron process) you can just pass the path to the electron executable in the `options` object:
 
 ```js
-const path = require('path')
+const path = require('path');
 
 require('electron-reload')(__dirname, {
-  electron: path.join(__dirname, 'node_modules', '.bin', 'electron')
+  electron: path.join(__dirname, 'node_modules', '.bin', 'electron'),
 });
 ```
 
 If your app overrides some of the default `quit` or `close` actions (e.g. closing the last app window hides the window instead of quitting the app) then the default `electron-reload` hard restart could leave you with multiple instances of your app running. In these cases you can change the default hard restart action from `app.quit()` to `app.exit()` by specifying the hard reset method in the electron-reload options:
 
 ```js
-const path = require('path')
+const path = require('path');
 
 require('electron-reload')(__dirname, {
   electron: path.join(__dirname, 'node_modules', '.bin', 'electron'),
-  hardResetMethod: 'exit'
+  hardResetMethod: 'exit',
 });
 ```
 
