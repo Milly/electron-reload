@@ -53,7 +53,7 @@ require('electron-reload')(__dirname, {
 ```
 
 # API
-`electron_reload(paths, options)`
+`electronReload(paths, options)`
 * `paths`: a file, directory or glob pattern to watch
 * `options` (optional) containing:
   - [`chokidar`](https://github.com/paulmillr/chokidar) options

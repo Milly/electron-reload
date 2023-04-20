@@ -28,4 +28,11 @@ export interface ElectronReloadOptions extends WatchOptions {
     forceHardReset?: boolean
 }
 
+/**
+ * Refreshes the Electron browser window when the watched glob or file path changes.
+ *
+ * @param glob a file, directory or glob pattern to watch
+ * @param options options for electron-reload or chokidar.watch
+ * @returns void
+ */
 export default function electronReload(glob: string | readonly string[], options: ElectronReloadOptions) : void;
