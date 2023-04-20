@@ -31,9 +31,9 @@
     "url": "https://github.com/Milly/electron-reload/issues"
   },
   "dependencies": {
-    "chokidar": "^3.5.2"
+    "chokidar": "^3.5.3"
   },
   "devDependencies": {
-    "standard": "^13.1.0"
+    "standard": "^17.0.0"
   }
 }
