@@ -19,7 +19,7 @@ Just initialize this module with desired glob or file path to watch and let it r
 
 const {app, BrowserWindow} = require('electron');
 
-const electronReload = require('electron-reload')
+const electronReload = require('electron-reload');
 
 // Standard stuff
 app.on('ready', () => {
@@ -33,21 +33,21 @@ app.on('ready', () => {
 Note that the above code only refreshes `WebContent`s of all `BrowserWindow`s. So if you want to have a hard reset (starting a new electron process) you can just pass the path to the electron executable in the `options` object:
 
 ```js
-const path = require('path')
+const path = require('path');
 
 require('electron-reload')(__dirname, {
-  electron: path.join(__dirname, 'node_modules', '.bin', 'electron')
+  electron: path.join(__dirname, 'node_modules', '.bin', 'electron'),
 });
 ```
 
 If your app overrides some of the default `quit` or `close` actions (e.g. closing the last app window hides the window instead of quitting the app) then the default `electron-reload` hard restart could leave you with multiple instances of your app running. In these cases you can change the default hard restart action from `app.quit()` to `app.exit()` by specifying the hard reset method in the electron-reload options:
 
 ```js
-const path = require('path')
+const path = require('path');
 
 require('electron-reload')(__dirname, {
   electron: path.join(__dirname, 'node_modules', '.bin', 'electron'),
-  hardResetMethod: 'exit'
+  hardResetMethod: 'exit',
 });
 ```
 
@@ -70,30 +70,10 @@ Simply put, I was tired and confused by all other available modules which are so
 \* *e.g. start a local HTTP server, publish change events through a WebSocket, etc.!*
 
 # Changelog
- - **2.0.0-alpha.1**:
-   - Update outdated dependencies.
-   - Fix #35: throw error instead of logging to console.
-   - Fix #65: add TypeScript definitions.
-   - Fix #78: minor README fixes.
-   - Fix #87: enable passing arguments to the app itself.
- - **1.5.0**:
-   - Upgrade `chokidar` from v2 to v3 (lighter/faster installation)
-   - Add friendly linting in dev mode (`node run lint`) and fix CI linting issues (see [#62](https://github.com/yan-foto/electron-reload/pull/62))
- - **1.4.1**: Fix two minor bugs
-   - Wrong globbing when doing hard reset ([`#58`](https://github.com/yan-foto/electron-reload/issues/58))
-   - Issues with locating main file in specific project structures ([`#57`](https://github.com/yan-foto/electron-reload/issues/57))
- - **1.4.0**: Enable hard reset for all changes (and not only the main file)
- - **1.3.0**: Allow passing arguments to electron executable upon hard resets
- - **1.2.5**: Upgrade dependencies (fix vulnerabilities)
- - **1.2.4**: Use `index.js` as fallback if `main` is not defined in `package.json`
- - **1.2.3**: Fix multiple instances on restart
- - **1.2.2**: Fix `browserWindows[]` indexing
- - **1.2.1**: Remove logging from production code (d'oh)
- - **1.2.0**: Allow hard reset in multiple browser windows
- - **1.1.0**: Add `app.exit()` in addition to `app.quit()` for hard resets
- - **1.0.3**: Fix hard reset bug
- - **1.0.2**: Detach child so that killing parent doesn't kill it (on windows)
- - **1.0.1**: Replace `extend` with `Object.assign`
- - **1.0.0**: Adapt to Electron 1.0 new API
- - **0.3.0**: Use new method of accessing `app` (e.g. `require(electron).app`)
- - **0.2.0**: Use new electrons (> v0.32.3) `browser-window-created` event
+ - **3.0.0**:
+   - Initial release of `@millyc/electron-reload` package.
+   - Forked from [electron-reload v2.0.0-alpha.1](https://github.com/yan-foto/electron-reload/tree/v2.0.0-alpha.1).
+   - Update dependencies.
+   - Fix yan-foto/electron-reload#110: Changed `electronArgv` and `appArgv` types to array.
+   - Fix yan-foto/electron-reload#114: Allow readonly string array in `glob`.
+   - Fix #4: Add JSDoc to `electronReload()`.
