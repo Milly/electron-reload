@@ -70,10 +70,12 @@ Simply put, I was tired and confused by all other available modules which are so
 \* *e.g. start a local HTTP server, publish change events through a WebSocket, etc.!*
 
 # Changelog
- - **3.0.0**:
-   - Initial release of `@millyc/electron-reload` package.
-   - Forked from [electron-reload v2.0.0-alpha.1](https://github.com/yan-foto/electron-reload/tree/v2.0.0-alpha.1).
-   - Update dependencies.
-   - Fix yan-foto/electron-reload#110: Changed `electronArgv` and `appArgv` types to array.
-   - Fix yan-foto/electron-reload#114: Allow readonly string array in `glob`.
-   - Fix #4: Add JSDoc to `electronReload()`.
+- **3.0.0**:
+  - Fix #9: Support webpack.
+- **3.0.0-alpha.0**:
+  - Initial release of `@millyc/electron-reload` package.
+  - Forked from [electron-reload v2.0.0-alpha.1](https://github.com/yan-foto/electron-reload/tree/v2.0.0-alpha.1).
+  - Update dependencies.
+  - Fix yan-foto/electron-reload#110: Changed `electronArgv` and `appArgv` types to array.
+  - Fix yan-foto/electron-reload#114: Allow readonly string array in `glob`.
+  - Fix #4: Add JSDoc to `electronReload()`.
