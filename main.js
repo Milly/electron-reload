@@ -3,13 +3,7 @@ const chokidar = require('chokidar')
 const fs = require('fs')
 const { spawn } = require('child_process')
 
-const appPath = app.getAppPath()
 const ignoredPaths = /node_modules|[/\\]\./
-// Main file poses a special case, as its changes are
-// only effective when the process is restarted (hard reset)
-// We assume that electron-reload is required by the main
-// file of the electron application
-const mainFile = module.parent.filename
 
 /**
  * Creates a callback for hard resets.
@@ -20,8 +14,9 @@ const mainFile = module.parent.filename
  * @param {string[]} aArgv arguments passed to the application
  * @returns {function} handler to pass to chokidar
  */
-const createHardresetHandler = (eXecutable, hardResetMethod, eArgv, aArgv) =>
-  () => {
+const createHardresetHandler = (eXecutable, hardResetMethod, eArgv, aArgv) => {
+  const appPath = app.getAppPath()
+  return () => {
     // Detaching child is useful when in Windows to let child
     // live after the parent is killed
     const args = (eArgv || [])
@@ -43,6 +38,7 @@ const createHardresetHandler = (eXecutable, hardResetMethod, eArgv, aArgv) =>
       app.quit()
     }
   }
+}
 
 /**
  * @typedef {import('./types/main').ElectronReloadOptions} ElectronReloadOptions
@@ -56,8 +52,18 @@ const createHardresetHandler = (eXecutable, hardResetMethod, eArgv, aArgv) =>
  * @returns void
  */
 function electronReload (glob, options = {}) {
+  // Main file poses a special case, as its changes are
+  // only effective when the process is restarted (hard reset)
+  // We assume that electron-reload is required by the main
+  // file of the electron application
+  // NOTE: `module.parent` is deprecated, but for backward compatibility
+  // NOTE: `process.mainModule` is deprecated, but for webpack compatibility
+  const mainFile = (require.main || module.parent).filename || (process.mainModule || {}).filename
+
   const browserWindows = []
-  const watcher = chokidar.watch(glob, Object.assign({ ignored: [ignoredPaths, mainFile] }, options))
+  const softResetDefaultIgnored = [ignoredPaths]
+  if (mainFile) softResetDefaultIgnored.push(mainFile)
+  const watcher = chokidar.watch(glob, Object.assign({ ignored: softResetDefaultIgnored }, options))
 
   // Callback function to be executed:
   // I) soft reset: reload browser windows
@@ -89,6 +95,9 @@ function electronReload (glob, options = {}) {
   if (eXecutable) {
     if (!fs.existsSync(eXecutable)) {
       throw new Error('Provided electron executable cannot be found or is not exeecutable!')
+    }
+    if (!mainFile) {
+      throw new Error('Cannot detect main module filename!')
     }
 
     const hardWatcher = chokidar.watch(mainFile, Object.assign({ ignored: [ignoredPaths] }, options))
